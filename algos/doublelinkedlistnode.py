@@ -27,7 +27,7 @@ class DoubleLinkedList:
             self.tail = new_node
         else:
             self.tail.next = new_node
-            new_node.prev = self.self.tail
+            new_node.prev = self.tail
             self.tail = new_node
         self.length += 1
         return True
@@ -50,8 +50,8 @@ class DoubleLinkedList:
         new_node = Node(value)
 
         if self.length == 0:
-            self.head = None
-            self.tail = None
+            self.head = new_node
+            self.tail = new_node
 
         else:
             new_node.next = self.head
@@ -80,10 +80,65 @@ class DoubleLinkedList:
         if index < 0 or index >= self.length:
             return None
         temp = self.head
-        for _ in range(index):
-            temp = temp.next
+        if index < self.length / 2:
+            for _ in range(index):
+                temp = temp.next
+        else:
+            temp = self.tail
+            for _ in range(self.length - 1, index, -1):
+                temp = temp.prev
         return temp
 
+    def set_value(self, index, value):
+        temp = self.get(index)
+        if temp is not None:
+            temp.value = value
+            return True 
+        return False
+
+
+    def insert(self, index, value):
+        if index < 0 or index > self.length:
+            return False
+        if index == 0:
+            return self.prepend(value)
+        if index == self.length:
+            return self.append(value)
+
+        new_node = Node(value)
+        before = self.get(length - 1)
+        after = before.next
+
+        #incluindo novo elemento
+
+        new_node.prev = before
+        new_node.next = after
+        before.next = new_node
+        after.prev = new_node
+        self.length += 1
+        return True
+
+    def remove(self, index):
+        if index < 0 or index >= self.length:
+            if index == 0:
+                self.pop_first()
+            
+            if index == self.length - 1:
+                self.pop()
+
+            temp = self.get(index)
+
+            temp.next.prev = temp.prev
+            temp.prev.next = temp.next
+            temp.next = None
+            temp.prev = None
+
+            self.length -= 1
+            return temp
+
+
+
+        
 
 
 
@@ -92,6 +147,13 @@ class DoubleLinkedList:
 
 
 mylink = DoubleLinkedList(7)
+mylink.append(8)
+mylink.append(9)
+mylink.append(1)
+mylink.get(2)
+mylink.print_list()
+print(" ")
+mylink.set_value(1, 20)
 mylink.print_list()
 
 
