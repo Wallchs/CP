@@ -9,4 +9,3 @@ for _ in range(testecase):
 
     man_of_the_match = scores.index(max(scores)) + 1
     print(man_of_the_match)
-
